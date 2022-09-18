@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: jaffle_shop # recognized by default as name of Schema
+    description: A clone of Snowflake database
+    database: raw
+    schema: jaffle_shop
+    tables:
+      - name: customers
+        description: Unique customer per row
+        columns:
+          - name: id
+            description: Primary Key for Orders
+            tests: 
+              - unique
+              - not_null
+      - name: orders
+        description: All customer orders
+        columns:
+          - name: id
+            description: Primary Key for Orders
+            tests:
+              - unique
+              - not_null
+
+          - name: status
+            description: "{{ doc('order_status')}}"
+            tests: 
+              - accepted_values:
+                  values:
+                    - shipped
+                    - returned
+                    - completed
+                    - return_pending
+                    - placed
+
+        loaded_at_field: _etl_loaded_at
+        freshness:
+          warn_after: {count: 12, period: hour}
+          error_after: {count: 24, period: hour}

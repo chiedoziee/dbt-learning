@@ -1,9 +1,0 @@
-version: 2
-
-sources:
-  - name: jaffle_shop # recognized by default as name of Schema
-    database: raw
-    schema: jaffle_shop
-    tables:
-      - name: customers
-      - name: orders
